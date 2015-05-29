@@ -10,8 +10,7 @@ defmodule ElixirPlugExamples.Router do
 
   # Root path
   get "/" do
-    conn
-    |> Plug.Conn.send_resp(200, "This entire website runs on Elixir plugs!")
+    send_resp(conn, 200, "This entire website runs on Elixir plugs!")
   end
 
   # Using match
@@ -26,8 +25,7 @@ defmodule ElixirPlugExamples.Router do
 
   # Use a variable in the route
   get "/about/:name" do
-    conn
-    |> Plug.Conn.send_resp(200, "#{name} is vital to our website's continued success.")
+    send_resp(conn, 200, "#{name} is vital to our website's continued success.")
   end
 
   # Use an array of variables in the route
@@ -35,8 +33,20 @@ defmodule ElixirPlugExamples.Router do
     send_resp(conn, 200, "Woah there! Our website does not know what to do with this: #{inspect glob}")
   end
 
+  # Send JSON response
+  get "/json/:name" do
+    conn
+    |> put_resp_content_type("application/json")
+    |> send_resp(200, Poison.encode!(%{name: name}))
+  end
+
+  # Send request to module
+  get "/dynamic/:name" do
+    ElixirPlugExamples.Dynamic.render(conn, name)
+  end
+
   # 404 Fallback
-  get "/*glob" do
+  match _ do
     send_resp(conn, 404, "You did something terribly wrong...")
   end
 end

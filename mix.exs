@@ -14,7 +14,7 @@ defmodule ElixirPlugExamples.Mixfile do
   #
   # Type `mix help compile.app` for more information
   def application do
-    [applications: [:logger, :cowboy, :plug],
+    [applications: [:logger, :cowboy, :plug, :poison],
      mod: {ElixirPlugExamples, []}]
   end
 
@@ -29,6 +29,7 @@ defmodule ElixirPlugExamples.Mixfile do
   # Type `mix help deps` for more examples and options
   defp deps do
     [{:cowboy, "~> 1.0.0"},
-     {:plug, "~> 0.12"}]
+     {:plug, "~> 0.12"},
+     {:poison, "~> 1.4.0"}]
   end
 end
